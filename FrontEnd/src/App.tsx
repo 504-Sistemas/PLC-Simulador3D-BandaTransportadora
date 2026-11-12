@@ -36,6 +36,25 @@ function App() {
     };
   }, [plcState?.q4_AlarmaAtasco, audioMuted]);
 
+  // Sincronizar sonido del motor de la banda transportadora con la salida Q1 del PLC
+  const prevMotorRef = useRef(false);
+  useEffect(() => {
+    const q1Now = Boolean(plcState?.q1_MotorBanda);
+    if (!audioMuted) {
+      if (q1Now && (!prevMotorRef.current || !industrialAudio.isMotorRunning())) {
+        industrialAudio.startConveyorMotor();
+      } else if (!q1Now && prevMotorRef.current) {
+        industrialAudio.stopConveyorMotor();
+      }
+    } else {
+      industrialAudio.stopConveyorMotor(true);
+    }
+    prevMotorRef.current = q1Now;
+    return () => {
+      industrialAudio.stopConveyorMotor(true);
+    };
+  }, [plcState?.q1_MotorBanda, audioMuted]);
+
   // Sonido de válvula electroneumática al extender Q2 o Q3
   const prevPistonRef = useRef({ q2: false, q3: false });
   useEffect(() => {
