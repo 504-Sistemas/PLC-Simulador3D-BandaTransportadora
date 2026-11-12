@@ -1,0 +1,1118 @@
+:root {
+  --bg-chassis: #0d1014;
+  --bg-panel: #15191f;
+  --bg-subpanel: #1b2028;
+  --bg-recessed: #090b0e;
+  --border-steel: #2c3542;
+  --border-highlight: #3d495a;
+  --siemens-teal: #009999;
+  --siemens-teal-bright: #00cccc;
+  --ind-amber: #f59e0b;
+  --ind-green: #10b981;
+  --ind-red: #ef4444;
+  --ind-cyan: #0ea5e9;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --font-sans: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Consolas', monospace;
+}
+
+.hmi-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background-color: var(--bg-chassis);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(0, 153, 153, 0.06), transparent 60%),
+    linear-gradient(180deg, #101419 0%, #0b0d11 100%);
+  color: var(--text-primary);
+}
+
+/* --- TOP SIEMENS SIMATIC NAVBAR --- */
+.simatic-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #12161c;
+  border-bottom: 2px solid var(--siemens-teal);
+  padding: 10px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.brand-cluster {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.siemens-logo-badge {
+  background: var(--siemens-teal);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  padding: 6px 12px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.station-title-block h1 {
+  margin: 0;
+  font-size: clamp(1rem, 0.85rem + 0.6vw, 1.3rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.station-subtitle {
+  display: flex;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.station-subtitle span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.telemetry-cluster {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.plc-mode-module {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-recessed);
+  border: 1px solid var(--border-steel);
+  padding: 6px 12px;
+  border-radius: 2px;
+}
+
+.mode-led {
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+  background: #475569;
+}
+
+.mode-led.run {
+  background: var(--ind-green);
+  box-shadow: 0 0 8px var(--ind-green);
+}
+
+.mode-led.stop {
+  background: var(--ind-amber);
+  box-shadow: 0 0 8px var(--ind-amber);
+}
+
+.mode-led.fault {
+  background: var(--ind-red);
+  box-shadow: 0 0 10px var(--ind-red);
+  animation: blinkFast 0.4s infinite alternate;
+}
+
+@keyframes blinkFast {
+  from { opacity: 1; }
+  to { opacity: 0.25; }
+}
+
+.comm-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 2px;
+  font-weight: 600;
+  border: 1px solid;
+}
+
+.comm-badge.online {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #34d399;
+}
+
+.comm-badge.offline {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #f87171;
+}
+
+.comm-badge.standalone {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
+}
+
+.audio-toggle-btn {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border: 1px solid var(--border-steel);
+  background: var(--bg-recessed);
+  color: var(--siemens-teal-bright);
+}
+
+.audio-toggle-btn.muted {
+  color: var(--text-muted);
+  border-color: #334155;
+}
+
+/* --- MAIN WORKSPACE --- */
+.hmi-workspace {
+  max-width: 1540px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  container-type: inline-size;
+}
+
+/* --- ISA-101 ANNUNCIATOR & WATCHDOG BAR --- */
+.annunciator-bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-steel);
+  border-left: 5px solid var(--siemens-teal);
+  padding: 12px 18px;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.annunciator-bar.alarm-active {
+  background: linear-gradient(90deg, rgba(127, 29, 29, 0.45) 0%, #181216 100%);
+  border-color: var(--ind-red);
+  border-left: 6px solid var(--ind-red);
+}
+
+.annunciator-code {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  background: var(--bg-recessed);
+  border: 1px solid var(--border-steel);
+  color: var(--siemens-teal-bright);
+  letter-spacing: 0.08em;
+}
+
+.annunciator-bar.alarm-active .annunciator-code {
+  background: var(--ind-red);
+  color: #ffffff;
+  border-color: #fca5a5;
+}
+
+.annunciator-message {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+
+.watchdog-telemetry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  background: var(--bg-recessed);
+  padding: 6px 12px;
+  border: 1px solid var(--border-steel);
+}
+
+.watchdog-meter {
+  width: 120px;
+  height: 10px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  position: relative;
+  overflow: hidden;
+}
+
+.watchdog-fill {
+  height: 100%;
+  background: var(--siemens-teal-bright);
+  transition: width 0.1s linear;
+}
+
+.watchdog-fill.warn {
+  background: var(--ind-amber);
+}
+
+.watchdog-fill.crit {
+  background: var(--ind-red);
+}
+
+/* --- CAD / P&ID SYNOPTIC PROCESS STAGE --- */
+.synoptic-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-steel);
+  border-radius: 2px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.panel-header-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #1b2129;
+  border-bottom: 1px solid var(--border-steel);
+}
+
+.panel-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cbd5e1;
+}
+
+.panel-index-tag {
+  background: #28313e;
+  color: var(--siemens-teal-bright);
+  padding: 2px 7px;
+  border: 1px solid #3b4758;
+  font-size: 0.72rem;
+}
+
+.feeder-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.feeder-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.ind-action-btn {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 7px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid var(--border-highlight);
+  background: #222933;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.12s, border-color 0.12s, transform 0.08s;
+}
+
+.ind-action-btn:hover:not(:disabled) {
+  background: #2c3644;
+  border-color: var(--siemens-teal-bright);
+}
+
+.ind-action-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.ind-action-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.ind-action-btn.lot-a {
+  border-left: 4px solid var(--ind-cyan);
+}
+
+.ind-action-btn.lot-b {
+  border-left: 4px solid var(--ind-amber);
+}
+
+.ind-action-btn.jam-sim {
+  border-left: 4px solid var(--ind-red);
+  color: #fca5a5;
+}
+
+/* --- SELECTOR DE MODO DE VISTA (3D / 2D / DUAL) --- */
+.view-mode-switch {
+  display: inline-flex;
+  background: var(--bg-recessed);
+  border: 1px solid var(--border-steel);
+  padding: 2px;
+  gap: 2px;
+}
+
+.view-mode-btn {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 5px 11px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.view-mode-btn:hover {
+  color: #ffffff;
+  background: #1b222c;
+}
+
+.view-mode-btn.active {
+  background: var(--siemens-teal);
+  color: #ffffff;
+}
+
+/* --- GEMELO DIGITAL 3D (THREE.JS WEBGL VIEWPORT) --- */
+.cad-viewport-3d-wrap {
+  position: relative;
+  width: 100%;
+  height: 430px;
+  background: #080b0f;
+  border-bottom: 1px solid var(--border-steel);
+  overflow: hidden;
+}
+
+.cad-viewport-3d {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.cad-viewport-3d:active {
+  cursor: grabbing;
+}
+
+.viewport-3d-hud-top {
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.cam-preset-group {
+  display: inline-flex;
+  background: rgba(9, 11, 14, 0.85);
+  border: 1px solid var(--border-steel);
+  backdrop-filter: blur(4px);
+  pointer-events: auto;
+}
+
+.cam-preset-btn {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border-steel);
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.cam-preset-btn:last-child {
+  border-right: none;
+}
+
+.cam-preset-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.cam-preset-btn.active {
+  background: rgba(0, 153, 153, 0.28);
+  color: var(--siemens-teal-bright);
+}
+
+.hud-3d-counters {
+  display: inline-flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.hud-chip {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  background: rgba(9, 11, 14, 0.85);
+  border: 1px solid var(--border-steel);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-chip.chip-a {
+  border-left: 3px solid var(--ind-cyan);
+}
+
+.hud-chip.chip-a strong {
+  color: #38bdf8;
+}
+
+.hud-chip.chip-b {
+  border-left: 3px solid var(--ind-amber);
+}
+
+.hud-chip.chip-b strong {
+  color: #fbbf24;
+}
+
+.viewport-3d-hud-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 6px 14px;
+  background: linear-gradient(180deg, transparent 0%, rgba(8, 11, 15, 0.88) 70%);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #94a3b8;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* --- BLUEPRINT VIEWPORT --- */
+.cad-viewport {
+  position: relative;
+  height: 360px;
+  background-color: #0b0e12;
+  background-image:
+    linear-gradient(rgba(44, 53, 66, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44, 53, 66, 0.25) 1px, transparent 1px),
+    linear-gradient(rgba(44, 53, 66, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44, 53, 66, 0.12) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-steel);
+}
+
+.cad-scale-ruler {
+  position: absolute;
+  top: 8px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #475569;
+  pointer-events: none;
+  border-bottom: 1px dashed rgba(71, 85, 105, 0.35);
+  padding-bottom: 4px;
+}
+
+/* Pneumatic Cylinders (Festo style) */
+.pneumatic-actuator {
+  position: absolute;
+  top: 26px;
+  width: 148px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 8;
+}
+
+.cylinder-housing {
+  width: 100%;
+  background: linear-gradient(90deg, #27303c 0%, #374353 50%, #27303c 100%);
+  border: 1px solid #64748b;
+  border-top: 3px solid var(--siemens-teal);
+  padding: 5px 8px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.cylinder-housing.energized {
+  border-top-color: var(--ind-amber);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.35);
+}
+
+.cyl-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #f8fafc;
+  display: block;
+}
+
+.cyl-sub {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #94a3b8;
+}
+
+.piston-shaft {
+  width: 14px;
+  height: 20px;
+  background: linear-gradient(90deg, #94a3b8 0%, #f8fafc 50%, #64748b 100%);
+  border-inline: 1px solid #475569;
+  transition: height 0.14s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.piston-shaft.extended {
+  height: 92px;
+}
+
+.pusher-blade {
+  width: 52px;
+  height: 12px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #eab308,
+    #eab308 6px,
+    #1e293b 6px,
+    #1e293b 12px
+  );
+  border: 1px solid #fef08a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Optical Laser Beam Lines */
+.laser-beam {
+  position: absolute;
+  top: 126px;
+  height: 82px;
+  width: 2px;
+  border-left: 2px dashed rgba(239, 68, 68, 0.45);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.laser-beam.tripped {
+  border-left: 2px solid #10b981;
+  box-shadow: 0 0 10px #10b981;
+}
+
+/* Conveyor Belt Assembly */
+.conveyor-frame {
+  position: absolute;
+  top: 132px;
+  left: 52px;
+  right: 52px;
+  height: 70px;
+  background: #161b22;
+  border-top: 6px solid #394452;
+  border-bottom: 6px solid #394452;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.85), 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+.conveyor-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-block: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.belt-surface {
+  width: 200%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #1a2028 0px,
+      #1a2028 34px,
+      #28313d 34px,
+      #28313d 40px
+    );
+}
+
+.belt-surface.running {
+  animation: beltScroll 0.28s linear infinite;
+}
+
+@keyframes beltScroll {
+  from { transform: translateX(-40px); }
+  to { transform: translateX(0); }
+}
+
+/* Drive Motor & Rollers */
+.roller-housing {
+  position: absolute;
+  top: 128px;
+  width: 56px;
+  height: 78px;
+  background: #232b36;
+  border: 2px solid #526072;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 7;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.roller-housing.drive-left {
+  left: 16px;
+}
+
+.roller-housing.idler-right {
+  right: 16px;
+}
+
+.roller-wheel {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid #94a3b8;
+  background: conic-gradient(#334155 0deg 90deg, #1e293b 90deg 180deg, #334155 180deg 270deg, #1e293b 270deg 360deg);
+}
+
+.roller-wheel.spinning {
+  animation: spinWheel 0.9s linear infinite;
+}
+
+@keyframes spinWheel {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.motor-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  margin-top: 4px;
+  color: #cbd5e1;
+}
+
+/* Photoelectric Sensors (Below Belt) */
+.photo-sensor {
+  position: absolute;
+  top: 208px;
+  transform: translateX(-50%);
+  background: #181e26;
+  border: 1px solid #475569;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 8;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #cbd5e1;
+}
+
+.sensor-lamp {
+  width: 9px;
+  height: 9px;
+  background: #334155;
+  border: 1px solid #64748b;
+}
+
+.sensor-lamp.on {
+  background: var(--ind-green);
+  box-shadow: 0 0 8px var(--ind-green);
+}
+
+/* Industrial Workpiece Crate */
+.industrial-part {
+  position: absolute;
+  width: 54px;
+  height: 44px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  transition: left 0.05s linear, top 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.75);
+}
+
+.industrial-part.cat-A {
+  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%);
+  border: 2px solid #38bdf8;
+  color: #f0f9ff;
+}
+
+.industrial-part.cat-B {
+  background: linear-gradient(135deg, #78350f 0%, #b45309 100%);
+  border: 2px solid #fbbf24;
+  color: #fffbeb;
+}
+
+.industrial-part.jammed {
+  background: repeating-linear-gradient(
+    -45deg,
+    #7f1d1d,
+    #7f1d1d 8px,
+    #dc2626 8px,
+    #dc2626 16px
+  );
+  border: 2px solid #fca5a5;
+  color: #ffffff;
+}
+
+.part-code {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.part-spec {
+  font-size: 0.56rem;
+  opacity: 0.85;
+}
+
+/* Discharge Chutes / Bins */
+.discharge-chute {
+  position: absolute;
+  bottom: 12px;
+  width: 196px;
+  height: 96px;
+  background: #12171e;
+  border: 1px solid #3b4758;
+  border-top: 4px solid #475569;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.75);
+}
+
+.discharge-chute.chute-a {
+  border-top-color: var(--ind-cyan);
+}
+
+.discharge-chute.chute-b {
+  border-top-color: var(--ind-amber);
+}
+
+.chute-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.lcd-counter-display {
+  background: #07090c;
+  border: 1px solid #26303d;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono);
+}
+
+.lcd-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.lcd-digits {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #38bdf8;
+  font-variant-numeric: tabular-nums;
+}
+
+.chute-b .lcd-digits {
+  color: #fbbf24;
+}
+
+/* --- BOTTOM 3-COLUMN INDUSTRIAL CONTROL RACK --- */
+.control-rack-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@container (max-width: 1120px) {
+  .control-rack-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rack-module {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-steel);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rack-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+/* IEC Operator Pushbuttons */
+.iec-station-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.iec-pushbutton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 12px;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  border: 2px solid;
+  text-transform: uppercase;
+  transition: transform 0.08s, filter 0.12s;
+}
+
+.iec-pushbutton:active {
+  transform: translateY(1px);
+}
+
+.iec-pushbutton .btn-symbol {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.iec-pushbutton .btn-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.iec-pushbutton .btn-addr {
+  font-size: 0.66rem;
+  opacity: 0.8;
+}
+
+.iec-pushbutton.start-green {
+  background: linear-gradient(180deg, #166534 0%, #14532d 100%);
+  border-color: #22c55e;
+  color: #f0fdf4;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.iec-pushbutton.stop-red {
+  background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%);
+  border-color: #ef4444;
+  color: #fef2f2;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.iec-pushbutton.fault-amber {
+  background: #272016;
+  border-color: #d97706;
+  color: #fcd34d;
+}
+
+.iec-pushbutton.fault-amber.latched {
+  background: #991b1b;
+  border-color: #f87171;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.5);
+}
+
+.iec-pushbutton.util-steel {
+  background: #1f2630;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+.commissioning-strip {
+  border-top: 1px solid var(--border-steel);
+  padding-top: 12px;
+}
+
+.strip-caption {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.pulse-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.terminal-pulse-btn {
+  background: var(--bg-recessed);
+  border: 1px solid var(--border-steel);
+  color: #cbd5e1;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 8px 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.terminal-pulse-btn:hover {
+  border-color: var(--siemens-teal-bright);
+  color: #ffffff;
+}
+
+/* PLC Terminal Strip & I/O Matrix */
+.terminal-block-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  background: var(--bg-recessed);
+  padding: 10px;
+  border: 1px solid var(--border-steel);
+}
+
+.terminal-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 4px;
+  background: #131820;
+  border: 1px solid #26303d;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.pin-led {
+  width: 12px;
+  height: 6px;
+  background: #283240;
+}
+
+.pin-led.high {
+  background: var(--ind-green);
+  box-shadow: 0 0 6px var(--ind-green);
+}
+
+.pin-led.high-alarm {
+  background: var(--ind-red);
+  box-shadow: 0 0 6px var(--ind-red);
+}
+
+.io-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
+
+.io-table th,
+.io-table td {
+  padding: 7px 10px;
+  text-align: left;
+  border-bottom: 1px solid #222934;
+}
+
+.io-table th {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+.state-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border: 1px solid;
+}
+
+.state-pill.energized {
+  background: rgba(16, 185, 129, 0.14);
+  border-color: var(--ind-green);
+  color: #34d399;
+}
+
+.state-pill.deenergized {
+  background: #14181f;
+  border-color: #334155;
+  color: #64748b;
+}
+
+.state-pill.tripped {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: var(--ind-red);
+  color: #fca5a5;
+}
+
+/* Function Blocks Telemetry (TON / CNT) */
+.fbd-block-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fbd-card {
+  background: var(--bg-recessed);
+  border: 1px solid var(--border-steel);
+  border-left: 3px solid var(--siemens-teal);
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+}
+
+.fbd-card-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 4px;
+}
+
+.fbd-card-metrics {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.fbd-val {
+  color: var(--siemens-teal-bright);
+  font-weight: 700;
+}
